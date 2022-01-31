@@ -1,43 +1,16 @@
-from collections import Counter
+from typing import List
 
 
 class Solution:
-    # solution for O(s*p), where p <= 26
-    def check_inclusion(self, pattern: str, str1: str) -> bool:
-        k = len(pattern)
-        pattern_dict = Counter(pattern)
-        window_dict = Counter(str1[:k])
-
-        if pattern_dict == window_dict:
-            return True
-
-        for window_end in range(k, len(str1)):
-            first_window_elem = str1[window_end - k]
-            if window_dict[first_window_elem] == 1:
-                del window_dict[first_window_elem]
-            else:
-                window_dict[first_window_elem] -= 1
-
-            new_elem = str1[window_end]
-            if new_elem in window_dict:
-                window_dict[new_elem] += 1
-            else:
-                window_dict[new_elem] = 1
-
-            if pattern_dict == window_dict:
-                return True
-
-        return False
-
-    # solution for O(s + p)
-    def check_inclusion1(self, pattern: str, str1: str) -> bool:
+    def findAnagrams(self, str1: str, pattern: str) -> List[int]:
         pattern_dict = {}
         str1_dict = {}
         k = len(pattern)
         matches = 0
+        result = []
 
         if k > len(str1):
-            return False
+            return result
 
         for i in range(ord('a'), ord('z') + 1):
             pattern_dict[chr(i)] = 0
@@ -52,7 +25,7 @@ class Solution:
                 matches += 1
 
         if matches == 26:
-            return True
+            result.append(0)
 
         for window_end in range(k, len(str1)):
             window_end_elem = str1[window_end]
@@ -70,16 +43,14 @@ class Solution:
                 matches -= 1
 
             if matches == 26:
-                return True
+                result.append(window_end - k + 1)
 
-        return False
+        return result
 
 
 if __name__ == '__main__':
     solution = Solution()
     pattern = "mart"
     str1 = "karma"
-    res1 = solution.check_inclusion(pattern=pattern, str1=str1)
-    res2 = solution.check_inclusion1(pattern=pattern, str1=str1)
+    res1 = solution.findAnagrams(str1=str1, pattern=pattern)
     print(res1)
-    print(res2)
