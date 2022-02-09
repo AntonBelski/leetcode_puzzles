@@ -36,7 +36,10 @@ class UnionFind:
 
 
 class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
+    def longestConsecutive1(self, nums: List[int]) -> int:
+        # First solution with Union Find
+        # Time Complexity - O(n + m * log*(n)), * -> this function veryyy close to constant O(1)
+        # Space Complexity - O(n)
         union_find = UnionFind(nums)
         checked_dict = {}
 
@@ -53,9 +56,30 @@ class Solution:
 
         return max_size
 
+    def longestConsecutive2(self, nums: List[int]) -> int:
+        # Second solution with sets
+        # Time Complexity - O(n), Space Complexity - O(n)
+        longest_streak = 0
+        nums_set = set(nums)
+
+        for elem in nums_set:
+            if elem - 1 not in nums_set:
+                curr_streak = 1
+                curr_elem = elem
+
+                while curr_elem + 1 in nums_set:
+                    curr_elem += 1
+                    curr_streak += 1
+
+                longest_streak = max(longest_streak, curr_streak)
+
+        return longest_streak
+
 
 if __name__ == '__main__':
     solution = Solution()
     nums = [100, 4, 200, 1, 3, 2]
-    res = solution.longestConsecutive(nums)
-    print(res)
+    res1 = solution.longestConsecutive1(nums)
+    res2 = solution.longestConsecutive2(nums)
+    print(res1)
+    print(res2)
