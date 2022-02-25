@@ -7,7 +7,7 @@ class Solution:
         return n_sum - nums_sum
 
     def missingNumber(self, nums) -> int:
-        # solution 1 with Cycle Sort, TC - O(n), SC - O(1)
+        # solution 1 with Cyclic Sort, TC - O(n), SC - O(1)
         i, n = 0, len(nums)
         while i < n:
             if nums[i] < n and i != nums[i]:
