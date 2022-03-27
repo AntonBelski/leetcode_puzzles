@@ -24,6 +24,6 @@ class Solution:
 
 if __name__ == '__main__':
     solution = Solution()
-    tokens = ["2","1","+","3","*"]
+    tokens = ["2", "1", "+", "3", "*"]
     result = solution.evalRPN(tokens)
     print(result)
