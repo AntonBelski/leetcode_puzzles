@@ -3,7 +3,7 @@ from typing import List
 
 class Solution:
     def search2(self, nums: List[int], target: int) -> int:
-        # Recursive solution, TC - O(log(n))
+        # Iterative solution, TC - O(log(n))
         lo = 0
         hi = len(nums) - 1
 
@@ -22,7 +22,7 @@ class Solution:
         return -1
 
     def search(self, nums, target, lo=None, hi=None):
-        # Iterative solution, TC - O(log(n))
+        # Recursive solution, TC - O(log(n))
         if lo is None:
             lo = 0
             hi = len(nums) - 1
