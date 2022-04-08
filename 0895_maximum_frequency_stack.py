@@ -3,6 +3,7 @@ from heapq import heappop, heappush
 
 
 class FreqStack2:
+    # My Solution, Time Complexity - O(log(n)) (push/pop), Space Complexity - O(k), k - unique numbers
     def __init__(self):
         self.heap = []
         self.counter = defaultdict(int)
@@ -22,6 +23,7 @@ class FreqStack2:
 
 
 class FreqStack:
+    # Very Smart Solution, Time Complexity - O(1) (push/pop), Space Complexity - O(n)
     def __init__(self):
         self.freq = defaultdict(int)
         self.group = defaultdict(list)
