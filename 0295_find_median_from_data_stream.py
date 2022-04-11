@@ -6,7 +6,7 @@ from heapq import heappop, heappush
 class MedianFinder2:
     # My Solution, Space Complexity - O(n)
     # 1 operation - Time Complexity - O(log(n)),
-    # n operations - Time Complexity - O(n*log(n)),
+    # n operations - Time Complexity - O(n*log(n))
     def __init__(self):
         self.max_heap = []
         self.min_heap = []
@@ -40,7 +40,7 @@ class MedianFinder2:
 class MedianFinder:
     # Betters Solution, Space Complexity - O(n)
     # 1 operation - Time Complexity - O(log(n)),
-    # n operations - Time Complexity - O(n*log(n)),
+    # n operations - Time Complexity - O(n*log(n))
     def __init__(self):
         self.max_heap = []
         self.min_heap = []
