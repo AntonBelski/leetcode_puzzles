@@ -1,8 +1,9 @@
+from heapq import heapify, heappop
 from typing import List
 
 
 class Solution:
-    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+    def minMeetingRooms2(self, intervals: List[List[int]]) -> int:
         rooms = 0
         s, e = 0, 0
 
@@ -19,9 +20,28 @@ class Solution:
 
         return rooms
 
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        max_rooms, rooms = 0, 0
+        start_heap = [pair[0] for pair in intervals]
+        end_heap = [pair[1] for pair in intervals]
+
+        heapify(start_heap)
+        heapify(end_heap)
+        while start_heap:
+            time = heappop(start_heap)
+            rooms += 1
+            while end_heap[0] <= time:
+                heappop(end_heap)
+                rooms -= 1
+            max_rooms = max(rooms, max_rooms)
+
+        return max_rooms
+
 
 if __name__ == '__main__':
     solution = Solution()
     intervals = [[0, 30], [5, 10], [15, 20]]
+    res = solution.minMeetingRooms2(intervals)
+    print(res)
     res = solution.minMeetingRooms(intervals)
     print(res)
