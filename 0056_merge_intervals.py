@@ -3,23 +3,16 @@ from typing import List
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        results = []
-        intervals.sort(key=lambda k: k[0])
+        pairs = sorted(intervals)
+        result = [pairs[0]]
 
-        start = intervals[0][0]
-        end = intervals[0][1]
-
-        for curr_start, curr_end in intervals[1:]:
-            if curr_start > end:
-                results.append([start, end])
-                start = curr_start
-                end = curr_end
+        for pair in pairs[1:]:
+            if result[-1][1] >= pair[0]:
+                result[-1][1] = max(result[-1][1], pair[1])
             else:
-                end = max(end, curr_end)
+                result.append(pair)
 
-        results.append([start, end])
-
-        return results
+        return result
 
 
 if __name__ == '__main__':

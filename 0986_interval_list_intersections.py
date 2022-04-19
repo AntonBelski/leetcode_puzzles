@@ -3,22 +3,22 @@ from typing import List
 
 class Solution:
     def intervalIntersection(self, fl: List[List[int]], sl: List[List[int]]) -> List[List[int]]:
-        results = []
-        i, j = 0, 0
+        result = []
+        p1, p2 = 0, 0
 
-        while i < len(fl) and j < len(sl):
-            lo = max(fl[i][0], sl[j][0])
-            hi = min(fl[i][1], sl[j][1])
+        while p1 < len(fl) and p2 < len(sl):
+            max_start = max(fl[p1][0], sl[p2][0])
+            min_end = min(fl[p1][1], sl[p2][1])
 
-            if lo <= hi:
-                results.append([lo, hi])
+            if min_end >= max_start:
+                result.append([max_start, min_end])
 
-            if fl[i][1] < sl[j][1]:
-                i += 1
+            if fl[p1][1] > sl[p2][1]:
+                p2 += 1
             else:
-                j += 1
+                p1 += 1
 
-        return results
+        return result
 
 
 if __name__ == '__main__':

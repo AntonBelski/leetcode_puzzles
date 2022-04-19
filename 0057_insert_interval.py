@@ -2,28 +2,26 @@ from typing import List
 
 
 class Solution:
-    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        results = []
-        i = 0
-        start, end = 0, 1
+    def insert(self, intervals: List[List[int]], new_inter: List[int]) -> List[List[int]]:
+        result = []
+        start = 0
         n = len(intervals)
 
-        while i < n and intervals[i][end] < newInterval[start]:
-            results.append(intervals[i])
-            i += 1
+        while start < n and intervals[start][1] < new_inter[0]:
+            result.append(intervals[start])
+            start += 1
 
-        while i < n and intervals[i][start] <= newInterval[end]:
-            newInterval[start] = min(newInterval[start], intervals[i][start])
-            newInterval[end] = max(newInterval[end], intervals[i][end])
-            i += 1
+        result.append(new_inter)
+        while start < n and result[-1][1] >= intervals[start][0]:
+            result[-1] = [min(result[-1][0], intervals[start][0]),
+                          max(result[-1][1], intervals[start][1])]
+            start += 1
 
-        results.append(newInterval)
+        while start < n:
+            result.append(intervals[start])
+            start += 1
 
-        while i < n:
-            results.append(intervals[i])
-            i += 1
-
-        return results
+        return result
 
 
 if __name__ == '__main__':
