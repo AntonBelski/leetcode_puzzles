@@ -2,44 +2,37 @@ from typing import List
 
 
 class Solution:
-    def search2(self, nums: List[int], target: int) -> int:
+    def search2(self, arr: List[int], x: int) -> int:
         # Iterative solution, TC - O(log(n))
-        lo = 0
-        hi = len(nums) - 1
+        lo, hi = 0, len(arr)
 
-        while lo <= hi:
-            if nums[lo] == target:
-                return lo
-
+        while lo != hi:
             mid = (lo + hi) // 2
-            if target < nums[mid]:
-                hi = mid - 1
-            elif target > nums[mid]:
-                lo = mid + 1
+            if x <= arr[mid]:
+                hi = mid
             else:
-                return mid
+                lo = mid + 1
 
-        return -1
-
-    def search(self, nums, target, lo=None, hi=None):
-        # Recursive solution, TC - O(log(n))
-        if lo is None:
-            lo = 0
-            hi = len(nums) - 1
-
-        if lo > hi:
+        if lo < len(arr) and arr[lo] == x:
+            return lo
+        else:
             return -1
 
-        if nums[lo] == target:
-            return lo
+    def search(self, arr, x, lo=0, hi=None):
+        # Recursive solution, TC - O(log(n))
+        if not hi:
+            hi = len(arr)
+        elif lo == hi:
+            if lo < len(arr) and arr[lo] == x:
+                return lo
+            else:
+                return -1
 
         mid = (lo + hi) // 2
-        if target < nums[mid]:
-            return self.search(nums, target, lo, mid - 1)
-        elif target > nums[mid]:
-            return self.search(nums, target, mid + 1, hi)
+        if x <= arr[mid]:
+            return self.search(arr, x, lo, mid)
         else:
-            return mid
+            return self.search(arr, x, mid + 1, hi)
 
 
 if __name__ == '__main__':
