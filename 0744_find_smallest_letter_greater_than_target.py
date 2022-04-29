@@ -3,20 +3,15 @@ from typing import List
 
 class Solution:
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
-        lo = 0
-        hi = len(letters) - 1
-
+        lo, hi = 0, len(letters)
         while lo != hi:
             mid = (lo + hi) // 2
-            if target >= letters[mid]:
-                lo = mid + 1
-            else:
+            if target < letters[mid]:
                 hi = mid
+            else:
+                lo = mid + 1
 
-        if letters[lo] > target:
-            return letters[lo]
-        else:
-            return letters[0]
+        return letters[lo % len(letters)]
 
 
 if __name__ == '__main__':
