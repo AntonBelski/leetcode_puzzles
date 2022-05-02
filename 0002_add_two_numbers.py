@@ -10,27 +10,27 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        first_int = []
-        while l1:
-            first_int.append(str(l1.val))
-            l1 = l1.next
+        carry_node = result_node = ListNode()
+        prev_sum = 0
 
-        second_int = []
-        while l2:
-            second_int.append(str(l2.val))
-            l2 = l2.next
+        while l1 or l2:
+            curr_sum = prev_sum
+            if l1:
+                curr_sum += l1.val
+                l1 = l1.next
 
-        result_int = int(''.join(first_int[::-1])) + int(''.join(second_int[::-1]))
-        result_str = str(result_int)
+            if l2:
+                curr_sum += l2.val
+                l2 = l2.next
 
-        next_node = None
-        node = ListNode(val=int(result_str[0]), next=next_node)
+            prev_sum = curr_sum // 10
+            result_node.next = ListNode(curr_sum % 10)
+            result_node = result_node.next
 
-        for c in result_str[1:]:
-            next_node = node
-            node = ListNode(val=int(c), next=next_node)
+        if prev_sum:
+            result_node.next = ListNode(prev_sum % 10)
 
-        return node
+        return carry_node.next
 
 
 if __name__ == '__main__':
