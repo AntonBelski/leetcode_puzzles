@@ -20,7 +20,7 @@ class Solution:
                 lo = mid + 1
         return lo
 
-    def binary_serach(self, arr, max_elem_ind, x, is_ascending=True):
+    def binary_search(self, arr, max_elem_ind, x, is_ascending=True):
         if is_ascending:
             lo, hi = 0, max_elem_ind
         else:
@@ -38,11 +38,11 @@ class Solution:
     def findInMountainArray(self, x: int, arr: 'MountainArray') -> int:
         max_elem_ind = self.binary_search_max(arr)
 
-        left_ind = self.binary_serach(arr, max_elem_ind, x)
+        left_ind = self.binary_search(arr, max_elem_ind, x)
         if arr.get(left_ind) == x:
             return left_ind
 
-        right_ind = self.binary_serach(arr, max_elem_ind, x, is_ascending=False)
+        right_ind = self.binary_search(arr, max_elem_ind, x, is_ascending=False)
         if arr.get(right_ind) == x:
             return right_ind
         else:
