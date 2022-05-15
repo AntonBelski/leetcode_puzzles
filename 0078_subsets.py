@@ -11,6 +11,7 @@ class Solution:
         return result
 
     def subsets(self, nums: List[int]) -> List[List[int]]:
+        # Time Complexity - O(n * 2^n), Space Complexity - O(n), good proof of asymptotic in the notebook.
         result = [[]]
         self.current_list = []
         return self.recursive_subsets(nums, result)
