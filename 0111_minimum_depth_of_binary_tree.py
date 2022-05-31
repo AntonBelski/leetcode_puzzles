@@ -12,7 +12,7 @@ class TreeNode:
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
         # BFS, TC = O(n), SC = O(n)
-        max_depth = float('inf')
+        min_depth = float('inf')
         deq = deque()
         if root:
             deq.append([root, 1])
@@ -26,9 +26,9 @@ class Solution:
             if node.right:
                 deq.append([node.right, level + 1])
             if not node.left and not node.right:
-                max_depth = min(max_depth, level)
+                min_depth = min(min_depth, level)
 
-        return max_depth
+        return min_depth
 
     def minDepth2(self, root: Optional[TreeNode]) -> int:
         # DFS, TC = O(n), SC = O(n)
