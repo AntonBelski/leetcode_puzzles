@@ -1,23 +1,40 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        memo = []
-        for i in range(n + 2):
-            memo.append(self.fib(i, memo))
+        # Fibonacci number, Time Complexity - O(n), Space Complexity - O(1)
+        prev, curr = 1, 2
+        for _ in range(n - 1):
+            prev, curr = curr, prev + curr
 
-        return memo[n + 1]
+        return prev
 
-    def fib(self, n, memo):
-        if n <= 0:
-            return 0
-        elif n == 1:
-            return 1
-        elif n < len(memo):
-            return memo[n]
+    def climbStairs2(self, n: int) -> int:
+        # Bottom-up, Dynamic Programming, Time Complexity - O(n), Space Complexity - O(n)
+        steps = [1, 2]
 
-        return self.fib(n - 1, memo) + self.fib(n - 2, memo)
+        for _ in range(2, n):
+            steps.append(steps[-2] + steps[-1])
+
+        return steps[n - 1]
+
+    def climbStairs3(self, n: int) -> int:
+        # Recursion + Memoization, Dynamic Programming, Time Complexity - O(n), Space Complexity - O(n)
+        memo = [1, 2]
+
+        def get_fibonacci(n, memo):
+            if n < len(memo):
+                return memo[n]
+
+            memo.append(get_fibonacci(n - 2, memo) + get_fibonacci(n - 1, memo))
+            return memo[-1]
+
+        return get_fibonacci(n - 1, memo)
 
 
 if __name__ == '__main__':
     solution = Solution()
-    result = solution.climbStairs(3)
+    result = solution.climbStairs(10)
+    print(result)
+    result = solution.climbStairs2(10)
+    print(result)
+    result = solution.climbStairs3(10)
     print(result)
