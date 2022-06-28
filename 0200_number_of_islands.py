@@ -2,27 +2,20 @@ from typing import List
 
 
 class UnionFind:
-    def __init__(self, grid):
-        self.nodes = {}
-        self.sizes = {}
-        rows_len = len(grid)
-        columns_len = len(grid[0])
+    def __init__(self, n):
+        self.nodes = []
+        self.sizes = []
 
-        for i in range(rows_len):
-            for j in range(columns_len):
-                self.nodes[i * columns_len + j] = i * columns_len + j
-                self.sizes[i * columns_len + j] = 1
-
-    def root(self, p):
-        while p != self.nodes[p]:
-            self.nodes[p] = self.nodes[self.nodes[p]]
-            p = self.nodes[p]
-
-        return p
+        for i in range(n):
+            self.nodes.append(i)
+            self.sizes.append(1)
 
     def union(self, p, q):
         root_p = self.root(p)
         root_q = self.root(q)
+
+        if root_p == root_q:
+            return
 
         if self.sizes[root_p] > self.sizes[root_q]:
             self.nodes[root_q] = root_p
@@ -34,29 +27,32 @@ class UnionFind:
     def connected(self, p, q):
         return self.root(p) == self.root(q)
 
+    def root(self, p):
+        while p != self.nodes[p]:
+            p, self.nodes[p] = self.nodes[p], self.nodes[self.nodes[p]]
+        return p
+
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        rows, cols = len(grid), len(grid[0])
         islands = set()
-        rows_len = len(grid)
-        columns_len = len(grid[0])
-        union_find = UnionFind(grid)
+        union_find = UnionFind(rows * cols)
 
-        for i in range(rows_len):
-            for j in range(columns_len):
-                if i > 0 and grid[i][j] == grid[i - 1][j] == '1':
-                    union_find.union(i * columns_len + j, (i - 1) * columns_len + j)
-                if i < rows_len - 1 and grid[i][j] == grid[i + 1][j] == '1':
-                    union_find.union(i * columns_len + j, (i + 1) * columns_len + j)
-                if j > 0 and grid[i][j] == grid[i][j - 1] == '1':
-                    union_find.union(i * columns_len + j, i * columns_len + j - 1)
-                if j < columns_len - 1 and grid[i][j] == grid[i][j + 1] == '1':
-                    union_find.union(i * columns_len + j, i * columns_len + j + 1)
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] != '1':
+                    continue
 
-        for i in range(rows_len):
-            for j in range(columns_len):
-                if grid[i][j] == '1':
-                    islands.add(union_find.root(i * columns_len + j))
+                if r > 0 and grid[r - 1][c] == '1':
+                    union_find.union(r * cols + c, (r - 1) * cols + c)
+                if c > 0 and grid[r][c - 1] == '1':
+                    union_find.union(r * cols + c, r * cols + c - 1)
+
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == '1':
+                    islands.add(union_find.root(r * cols + c))
 
         return len(islands)
 
