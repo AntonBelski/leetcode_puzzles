@@ -3,28 +3,22 @@ from typing import List
 
 class NumMatrix:
     def __init__(self, matrix: List[List[int]]):
-        rows_len = len(matrix)
-        columns_len = len(matrix[0])
-        self.prefix_matrix = [[] for _ in range(rows_len)]
-
-        for r in range(rows_len):
-            prefix_row = 0
-            for c in range(columns_len):
-                curr_sum = matrix[r][c]
-                curr_sum += self.prefix_matrix[r - 1][c] if r >= 1 else 0
-                curr_sum += prefix_row
-                prefix_row += matrix[r][c]
-                self.prefix_matrix[r].append(curr_sum)
+        rows, cols = len(matrix), len(matrix[0])
+        self.pref_sum = [[0] * (cols + 1)]
+        for r in range(rows):
+            pref = [0]
+            self.pref_sum.append([0])
+            for c in range(cols):
+                pref.append(pref[-1] + matrix[r][c])
+                pref_val = pref[-1] + self.pref_sum[r][c + 1]
+                self.pref_sum[r + 1].append(pref_val)
 
     def sumRegion(self, r1: int, c1: int, r2: int, c2: int) -> int:
-        result = self.prefix_matrix[r2][c2]
-        if c1 >= 1:
-            result -= self.prefix_matrix[r2][c1 - 1]
-        if r1 >= 1:
-            result -= self.prefix_matrix[r1 - 1][c2]
-        if c1 >= 1 and r1 >= 1:
-            result += self.prefix_matrix[r1 - 1][c1 - 1]
-        return result
+        right_bottom = self.pref_sum[r2 + 1][c2 + 1]
+        right_top = self.pref_sum[r1][c2 + 1]
+        left_bottom = self.pref_sum[r2 + 1][c1]
+        left_top = self.pref_sum[r1][c1]
+        return right_bottom - right_top - left_bottom + left_top
 
 
 if __name__ == '__main__':

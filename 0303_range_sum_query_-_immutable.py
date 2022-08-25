@@ -1,12 +1,14 @@
+from typing import List
+
+
 class NumArray:
-    def __init__(self, nums):
-        self.sum_nums = nums[:1]
-        for elem in nums[1:]:
-            self.sum_nums.append(self.sum_nums[-1] + elem)
+    def __init__(self, nums: List[int]):
+        self.pref_sum = [0]
+        for num in nums:
+            self.pref_sum.append(self.pref_sum[-1] + num)
 
     def sumRange(self, left: int, right: int) -> int:
-        left_sum = self.sum_nums[left - 1] if left > 0 else 0
-        return self.sum_nums[right] - left_sum
+        return self.pref_sum[right + 1] - self.pref_sum[left]
 
 
 if __name__ == '__main__':
